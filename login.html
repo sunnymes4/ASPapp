@@ -1,0 +1,47 @@
+<div class="loginParentContainer" ng-controller="loginController">
+    <a ui-sref="index.home" style=""><i class="fa fa-home fa-2x"></i></a>
+    <div class="container1">
+        <div class="childContainer">
+
+            <div class="col-md-8 col-sm-7 welcomeBox animated fadeInLeft">
+
+                <h1>
+
+                    Welcome to Aspire
+                </h1>
+                <span style=""> AR </span>
+            </div>
+            <div class="form-container loginBox animated fadeInRight col-md-4 col-sm-5">
+                <img src="Images/Logo_responsive.svg" alt="Aspire_logo" class="logo pull-left animated fadeInRight">
+                <h3 class="title">Login</h3>
+                <form class="login-form ng-pristine ng-valid">
+                    <!--<h3 class="title"><img src="Images/Logo_responsive.svg" alt="Aspire_logo" class="logo">&nbsp;&nbsp;&nbsp;Aspire Login</h3>-->
+                    <div class="form-group" id="username">
+                        <label style="color:#fce41c"><i class="fa fa-user" aria-hidden="true"></i> 
+                            Username
+                        </label>
+
+                        <input class="form-control" tooltip-class="username-tooltip" placeholder="Username" id="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" required="true">
+                        <!--<span id="username-tool" class="tooltip username-tooltip">What's your username?</span>-->
+                    </div>
+                    <div class="form-group" id="password">
+                        <label style="color:#fce41c"> <i class="fa fa-key" aria-hidden="true"></i> Password</label>
+                        <input type="password" class="form-control" tooltip-class="password-tooltip" placeholder="Password">
+                        <!--<span class="tooltip password-tooltip">What's your password?</span>-->
+                    </div>
+                    <div class="form-group">
+                        <button class="btn" ui-sref="index.inboxAnalyst" ng-click="loginButton()">Login</button>
+                        <div class="pull-right mar-t-5">
+                            <input class="remember-checkbox" type="checkbox">
+                            <p class="remember-p">Remember me</p>
+                        </div>
+                    </div>
+                </form>
+                <div class="loading">
+                    <div class="loading-spinner-large" style="display: none;"></div>
+                    <div class="loading-spinner-small" style="display: none;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

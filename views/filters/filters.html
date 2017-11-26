@@ -1,0 +1,469 @@
+<div modal="showModal" close="cancel()">
+    <div class="modal-header">
+        <h4>Modal Dialog</h4>
+    </div>
+    <div class="modal-body">
+        <div class="col-md-12">
+            <table class="table table-bordered table-hover table-responsive table-striped" id="payerWise">
+                <thead>
+                    <tr>
+                        <th>User Name</th>
+                        <th>Target</th>
+                        <th>Assigned Target</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="account in AssignAccounts track by $index">
+                        <td>{{account.users.UserName}}</td>
+                        <td>{{account.users.Target}}</td>
+                        <td><input type="text" ng-model="account.accounts" value="{{account.accounts}}" /></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button id="Idconfirm"  class="btn btn-success" hidden ng-click="confirmAssign()">confirm</button>
+        <button id="Idreconfirm" class="btn btn-success" hidden ng-click="confirmReAssign()">confirm</button>
+        <button class="btn" ng-click="cancel()">Cancel</button>
+    </div>
+</div>
+<div class="filter-section">
+    <div class="row">
+        <div class="col-md-12">
+            <nav class="breadcrumb">
+                <a class="breadcrumb-item" href="#">Home </a>/
+                <a class="breadcrumb-item" href="#"> Library </a>/
+                <a class="breadcrumb-item" href="#"> Data </a>/
+                <span class="breadcrumb-item active"> Bootstrap </span>
+            </nav>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h1>
+                <span class="fa fa-filter"></span>
+                Filters
+                <a data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"></a>
+            </h1>
+            <div id="collapseOne" class="panel-collapse collapse in">
+                <div class="col-md-4 pad-left-none">
+
+                        <div class="col-md-12">
+
+                            <div ng-class="ValidationClass_filefield" class="form-group pad-left-none pad-right-none" ng-class="{has-error:!fkselect.$valid && !fkselect.$pristine},{has-success:fkselect.$valid && !fkselect.$pristine},">
+                                <label title="Fields" data-toggle="tooltip">File Name<span class="ashtrik">*</span></label>
+                                <select name="fkselect" form="saveForm" ng-change="myFunc();AgingSummery();PayerSummery('ALL')" ng-model="getImportFileList.ImportFileID" ng-options="item.ImportFileID as item.Filename for item in getImportFileList" class="form-control" required="required">
+                                    <option value="">-- Select File --</option>
+                                </select>
+                                <span class="ashtrik">{{ValidationClassmsg_filefield}}</span>
+                            </div>
+                        </div>
+                    <div class="col-md-12 pad-left-none pad-right-10">
+                        <nav class="records-count records-count1 animated lightSpeedIn" ng-show="$state.current.name === 'index.workAllocation'">
+                            <div class="col-md-12 pad-left-none pad-right-none">
+                                <div class="box" ng-repeat='items in menuItems'>
+                                    <a href="" ng-click="setActive(items.item)" ng-class="{active : activeMenu === items.item}"><span class="text-danger badge pull-right mar-r-10">{{items.records}}</span><i class="fa {{items.icon}}"></i> {{ items.item }}</a>
+                                </div>
+                            </div>
+                        </nav>
+                        <nav class="records-count animated lightSpeedIn" ng-show="$state.current.name === 'index.inboxAnalyst'">
+                            <div class="col-md-9 pad-left-none pad-right-none">
+                                <div class="box">
+                                    <a href="#"><i class="fa fa-flag-checkered bg-warning"></i> Fresh Records</a>
+                                    <div class="mask">
+                                        <p class="text-danger pull-right">50</p>
+                                    </div>
+                                </div>
+                                <div class="box">
+                                    <a href="#"><i class="fa fa-futbol-o bg-success"></i> QA Records</a>
+                                    <div class="mask">
+                                        <p class="text-success pull-right">20</p>
+                                    </div>
+                                </div>
+                                <div class="box">
+                                    <a href="#"><i class="fa fa-share-square-o bg-danger"></i> TS Records</a>
+                                    <div class="mask">
+                                        <p class="text-danger pull-right">20</p>
+                                    </div>
+                                </div>
+                                <div class="box">
+                                    <a href="#"><i class="fa fa-rocket bg-info"></i> CB Records</a>
+                                    <div class="mask">
+                                        <p class="text-info pull-right">10</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 pad-left-none pad-right-none">
+                                <div class="box1">
+                                    <a href="#"><i class="fa fa-rocket bg-primary"></i> Total</a>
+                                    <div class="mask">
+                                        <p class="text-info pull-right">120</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </nav>
+                    </div>
+                </div>
+
+                <div class="col-md-8">
+                    <div>
+                        <uib-tabset active="activeForm">
+                            <uib-tab index="0" heading="Aging Filter">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label title="Fields" data-toggle="tooltip">Aging</label>
+                                        <table class="table table-bordered table-hover table-responsive table-striped" id="agingTable">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width:50px;">S.No</th>
+                                                    <th>Tenure</th>
+                                                    <th>Records</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="filter in  AgingDetails">
+                                                    <td style="width:50px;">
+
+                                                        <input type="radio" ng-model="selectedRow" name="Aging" ng-value="filter.TenureCode" ng-change="PayerSummery(filter.TenureCode)">
+                                                    </td>
+
+                                                    <td>{{filter.TenureName}}</td>
+                                                    <td>{{filter.AgingCount}}</td>
+
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="col-md-8">
+
+                                        <div class="form-group row">
+                                            <label for="inputKey" class="col-md-1 control-label" style="padding-top:10px">Fields</label>
+                                            <div class="col-md-6">
+                                                <select class="form-control" name="practices" ng-change="myDynamicField()" ng-options="VarcharField.PracticeColumnName as VarcharField.PracticeColumnName for VarcharField in VarcharFields" ng-model="VarcharFields.PracticeColumnName" required="required">
+                                                    <option value="">-- Select field --</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <button class="btn btn-sm pull-right" id="btnAdd" ng-click="myFunc()" data-toggle="tooltip" title="Add Filter">
+                                                    Filter
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <label title="Fields" data-toggle="tooltip"></label>
+
+                                        <table class="table table-bordered table-hover table-responsive table-striped" id="payerWise">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width:50px;">S.No</th>
+                                                    <th>{{ VarcharFields.PracticeColumnName }}</th>
+                                                    <th>Bill Amount</th>
+                                                    <th>#Records</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                                <tr ng-repeat="filter in PayerDetails">
+                                                    <td style="width:50px;"><input type="checkbox" ng-model="filter.selected" value={{filter.InventoryField}} /></td>
+                                                    <td>{{filter.InventoryField}}</td>
+                                                    <td>{{filter.Billed_Amount}}</td>
+                                                    <td>{{filter.NoOfClaims}}</td>
+
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </uib-tab>
+
+                            <uib-tab index="1" heading="Custom Search">
+                                <form ng-submit="AddRow()" name="saveForm" >
+
+                                    <div ng-class="ValidationClass_field" class="col-md-3">
+                                        <div class="form-group">
+                                            <label title="Fields" data-toggle="tooltip">Fields<span class="ashtrik">*</span></label>
+                                            <select class="form-control" ng-change="myCondition()" ng-options="client.PracticeColumnName as client.PracticeColumnName for client in clients" ng-model="clients.PracticeColumnName" >
+                                                <option value="">-- Select field --</option>
+                                            </select>
+                                          
+                                        </div>
+                                    </div>
+
+
+                                    <div ng-class="ValidationClass_Condition" class="col-md-3">
+                                        <div class="form-group">
+                                            <label title="Condition" data-toggle="tooltip">Condition<span class="ashtrik">*</span></label>
+                                            <select class="form-control" name="conditions" ng-options="Conditions.name as Conditions.name for Conditions in Condition" ng-model="Condition.name" >
+                                                <option value="">-- Select Condition --</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div ng-class="ValidationClass_Value" class="col-md-3">
+                                        <div class="form-group">
+                                            <label title="Value" data-toggle="tooltip">Value<span class="ashtrik">*</span></label>
+                                            <select class="form-control" name="value" ng-options="value for value in Valuesforselec" ng-model="Valuesforselec.valuebind">
+                                                <option value="">-- Select Value --</option>
+                                            </select>
+                                            
+                                            
+                                            <!--<button type="button" class="btn btn-sm" id="Btnfilter" ng-click="Showmodel()" data-toggle="tooltip" title="filter Search">
+                                                <i class="fa  fa-search"></i>
+                                            </button>
+
+                                            <div class="col-12"  style="padding: 0px!important; margin-bottom: 10px">
+                                               
+
+                                                    <div id="multiplevalue" class="fade" role="dialog" style="position: initial">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h1> Inventory fields values </h1>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <table class="table table-bordered table-hover table-responsive table-striped" id="payerWise">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th style="width:50px;">S.No</th>
+                                                                            <th>{{ clients.PracticeColumnName }}</th>
+                                                                            
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody >
+
+                                                                        <tr ng-repeat="value in Valuesforselec track by $index">
+                                                                            <td style="width:50px;"><input type="checkbox"  value={{value}} /></td>
+                                                                                <td>{{value}}</td>
+                                                                          
+                                                                        </tr>
+
+                                                                    </tbody>
+                                                                </table>
+
+                                                            </div>
+
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                               
+                                                </div>-->
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 pad-right-none mar-t-10">
+                                        <div class="pull-right margin-top">
+                                            <button type="submit" class="btn btn-sm" id="btnAdd" data-toggle="tooltip" title="Add Filter">
+                                                <i class="fa fa-plus"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-sm" id="Btnfilter" ng-click="myFunc();ClearCustomSearch()" data-toggle="tooltip" title="Custom Search">
+                                                <i class="fa  fa-search"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-sm animated flip" id="btnrefresh" ng-click="removeAll()" data-toggle="tooltip" title="Refresh">
+                                                <i class="fa fa-refresh"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="col-md-12 pad-right-none">
+                                    <table class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Fields</th>
+                                                <th>Condition</th>
+                                                <th>Value</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="filter in multiplefilter">
+                                                <td>{{filter.field}}</td>
+                                                <td>{{filter.condition}}</td>
+                                                <td>{{filter.value}}</td>
+                                                <td>
+                                                    <button type="button" class="btn btn-sm" id="btnremove" ng-click="removeRow(filter.field)" data-toggle="tooltip" title="Remove Filter">
+                                                        <i class="fa fa-times"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </uib-tab>
+                            <uib-tab index="2" heading="Tab One">
+                                Some Tab Content
+                            </uib-tab>
+                        </uib-tabset>
+                    </div>
+                </div>
+                <div class="row" ng-show="$state.current.name === 'index.workAllocation'">
+                    <div class="col-md-12" ng-show="activeMenu == 'Agent Assign Que'">
+                        <h1>
+                            <span class="fa fa-thumb-tack"></span>
+                            Assign Account
+                            <!--<a data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"></a>-->
+                        </h1>
+                        <div class="panel-collapse">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label title="InputCount" data-toggle="tooltip">Count<span class="ashtrik">*</span></label>
+
+                                    <input type="number" class="form-control" ng-model="InputCount" name="InputCount" ng-change="SelectRows(InputCount)" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label title="Condition" data-toggle="tooltip">Account Status<span class="ashtrik">*</span></label>
+
+                                    <select class="form-control" ng-options="acc.AccountStatusCode as acc.AccountStatusName for acc in accountStatus" ng-change="changeAccountStatus();" ng-model="accountStatus.AccountStatusCode">
+                                        <!--<option value="">-- Select --</option>-->
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group pad-left-none pad-right-none">
+                                    <label title="Fields" data-toggle="tooltip">Category<span class="ashtrik">*</span></label>
+                                    <select class="form-control" ng-options="cat.CategoryCode as cat.CategoryName for cat in categories" ng-model="cat.categorie">
+                                        <option value="">-- Select --</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label title="Fields" data-toggle="tooltip">User<span class="ashtrik">*</span></label>
+                                    <dropdown-multiselect model="selectedUsers" options="allUsers" action="onUserChange.selectUsers()" ></dropdown-multiselect>
+
+                                    <!--<ul>
+                                        <li data-ng-repeat="item in selectedUsers">
+                                            {{ item }}
+                                        </li>
+                                    </ul>-->
+                                    <!--<users-multiselect selected-users="selectedUsers" listed-users="allUsers"></users-multiselect>-->
+                                </div>
+                            </div>
+                            <div class="col-md-2 pad-right-none mar-t-10 pull-right">
+                                <div class=" margin-top">
+                                    <button class="btn btn-sm pull-right" id="btnAdd" data-toggle="tooltip" title="Add Filter" ng-click="getSelectedRows('Assign')">
+                                        Assign
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12" ng-show="activeMenu == 'Agent Unassign Que'">
+                        <h1>
+                            <span class="fa fa-thumb-tack"></span>
+                            UnAssign Account
+                            <!--<a data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"></a>-->
+                        </h1>
+                        <div class="panel-collapse">
+                            <div class="col-md-2 pad-left-none">
+                                <div class="form-group pad-left-none pad-right-none">
+                                   <!-- <label title="Fields" data-toggle="tooltip">Count of Accounts<span class="ashtrik">*</span></label>-->
+                                    <!--<select name="fkselect" class="form-control"></select>-->
+                                    <label title="InputCount" data-toggle="tooltip">Count<span class="ashtrik">*</span></label>
+
+                                    <input type="number" class="form-control" ng-model="InputCount1" name="InputCount" ng-change="SelectRows(InputCount1)" />
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label title="Fields" data-toggle="tooltip">User<span class="ashtrik">*</span></label>
+                                    <!--<select class="form-control" ng-options="use.UserId as use.name for use in allUsers" ng-change="changeuserName()" ng-model="allUsers.UserId">-->
+                                    <select class="form-control" ng-options="use.UserId as use.name for use in UnallocatedUsers" ng-change="changeuserName()" ng-model="UnallocatedUsers.UserId">
+
+                                        <option value="" selected>-- Select User --</option>
+                                    </select>
+                                   
+
+                                </div>
+                            </div>
+                            <div class="col-md-1 pad-right-none mar-t-25">
+                                <div class=" margin-top">
+                                    <button type="button" class="btn btn-sm " id="btnAdd" data-toggle="tooltip" ng-click="UnassignAccount()" title="Add Filter">
+                                        Unassign
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label title="Condition" data-toggle="tooltip">Reassign<span class="ashtrik">*</span></label>
+                                    <!--<select class="form-control">
+                                        <option>12</option>
+                                    </select>-->
+                                    <dropdown-multiselect model="selectedUsers" options="allUsers" action="onUserChange.selectUsers()"></dropdown-multiselect>
+                                </div>
+                            </div>
+                            <div class="col-md-1 pad-right-none mar-t-25">
+                                <div class=" margin-top">
+                                    <button type="button" class="btn btn-sm" id="btnAdd" data-toggle="tooltip" ng-click="getSelectedRows('ReAssign')" title=" add filter">
+                                        Re Assign
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label title="Value" data-toggle="tooltip">Status<span class="ashtrik">*</span></label>
+                                    <select class="form-control">
+                                        <option>12</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-12" ng-show="activeMenu == 'QCA Unassign Que'">
+                        <h1>
+                            <span class="fa fa-thumb-tack"></span>
+                            QCA UnAssign
+                            <!--<a data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"></a>-->
+                        </h1>
+                        <div class="panel-collapse">
+                            <div class="col-md-2 pad-left-none">
+                                <div class="form-group pad-left-none pad-right-none">
+                                    <label title="Fields" data-toggle="tooltip">Count of Accounts<span class="ashtrik">*</span></label>
+                                    <select name="fkselect" class="form-control"></select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label title="Fields" data-toggle="tooltip">User<span class="ashtrik">*</span></label>
+                                    <select class="form-control"></select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label title="Condition" data-toggle="tooltip">Reassign<span class="ashtrik">*</span></label>
+                                    <select class="form-control">
+                                        <option>12</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-1 pad-right-none mar-t-25">
+                                <div class=" margin-top">
+                                    <button type="button" class="btn btn-sm" id="btnAdd" data-toggle="tooltip" title="Add Filter">
+                                        Reassign
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label title="Value" data-toggle="tooltip">Agent<span class="ashtrik">*</span></label>
+                                    <select class="form-control">
+                                        <option>12</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
